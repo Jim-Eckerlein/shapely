@@ -85,17 +85,8 @@ function animate() {
     light.position.z = camera.position.z
     camera.lookAt(new THREE.Vector3())
 
-    mesh.visualize((x, y) => 0.2 * Math.sin(10 * x) * Math.exp(y))
+    mesh.visualize((x, y) => 0.2 * Math.sin(10 * x) * Math.exp(-y))
     grid.update()
-    
-    // renderer.clippingPlanes = [
-    //     new THREE.Plane(new THREE.Vector3(1, 0, 0), 1),
-    //     new THREE.Plane(new THREE.Vector3(-1, 0, 0), 1),
-    //     new THREE.Plane(new THREE.Vector3(0, 1, 0), 1),
-    //     new THREE.Plane(new THREE.Vector3(0, -1, 0), 1),
-    //     new THREE.Plane(new THREE.Vector3(0, 0, 1), 1),
-    //     new THREE.Plane(new THREE.Vector3(0, 0, -1), 1),
-    // ]
 
 	renderer.render(scene, camera)
 }
