@@ -4,6 +4,16 @@ let scaleExponent = 0
 const scaleBase = 2
 
 
+function scaleBy(ds) {
+    scaleExponent += ds
+
+    let exponent = -ds % 1
+    const scale = scaleBase ** exponent
+    viewportOriginX *= scale
+    viewportOriginY *= scale
+}
+
+
 function log(base, x) {
     return Math.log(x) / Math.log(base)
 }

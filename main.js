@@ -48,8 +48,8 @@ html.onmousemove = e => {
     }
 }
 html.onmousewheel = e => {
-    scaleExponent += e.deltaY * 0.0002
     e.preventDefault()
+    scaleBy(e.deltaY * 0.0005)
 }
 document.body.onkeydown = e => {
     if (e.key == "Meta") {
