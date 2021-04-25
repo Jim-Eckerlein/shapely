@@ -1,11 +1,7 @@
-let scaleExponent = 0
-const scaleBase = 2
-
 let viewportOriginX = 0
 let viewportOriginY = 0
-
-
-let subdivisions = 200
+let scaleExponent = 0
+const scaleBase = 2
 
 
 function log(base, x) {
@@ -15,6 +11,13 @@ function log(base, x) {
 
 function sq(x) {
     return x * x
+}
+
+
+/// True modulo operator. Result will be in `[0, y)`.
+function mod(x, y) {
+    const remainder = x % y
+    return remainder >= 0 ? remainder : remainder + y;
 }
 
 
@@ -45,6 +48,9 @@ function repeat(n, f) {
         f()
     }
 }
+
+
+let subdivisions = 200
 
 
 class Mesh {
@@ -218,8 +224,8 @@ class Grid {
         const colors = new Float32Array(3 * 6 + 24 * sq(sections * 2 + 1))
         const cs = makePusher(colors)
 
-        for (let xi = 0; xi <= sections * 2; xi++) {
-            for (let yi = 0; yi <= sections * 2; yi++) {
+        for (let xi = 0; xi <= 2 * sections; xi++) {
+            for (let yi = 0; yi <= 2 * sections; yi++) {
                 const x = xi / sections
                 const y = yi / sections
                 
@@ -262,20 +268,16 @@ class Grid {
     }
 
     update() {
-        let exponent = -scaleExponent
-        while (exponent <= 0) {
-            exponent += log(scaleBase, 2)
-        }
-        while (exponent >= log(scaleBase, 2)) {
-            exponent -= log(scaleBase, 2)
-        }
+        let exponent = mod(-scaleExponent, 1)
+
         const scale = scaleBase ** exponent
         this.mesh.scale.x = scale
         this.mesh.scale.y = scale
         this.mesh.scale.z = scale
 
-        this.mesh.position.x = viewportOriginX % 0.5
-        this.mesh.position.y = viewportOriginY % 0.5
+        const maximalOffset = scaleBase ** (exponent * scaleBase / 2)
+        this.mesh.position.x = viewportOriginX % maximalOffset
+        this.mesh.position.y = viewportOriginY % maximalOffset
     }
 
 }
