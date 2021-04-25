@@ -42,7 +42,7 @@ class Mesh {
         let colorsHead = 0
 
         const call = (x, y) => {
-            return viewportScale() * f(viewportScale() * x, viewportScale() * y)
+            return f(viewportScale() * x, viewportScale() * y) / viewportScale()
         }
 
         const mapOrdinate = i => mapRange(i, 0, subdivisions - 1, -1, 1)
