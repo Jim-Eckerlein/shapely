@@ -21,7 +21,7 @@ renderer.localClippingEnabled = true
 
 const html = renderer.domElement
 let dragging = false
-let orbiting = false
+let orbiting = true
 let pastX = 0, pastY = 0
 html.onmousedown = e => {
     dragging = true
