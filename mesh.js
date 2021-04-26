@@ -41,18 +41,22 @@ class Mesh {
         let verticesHead = 0
         let colorsHead = 0
 
-        const call = (x, y) => {
-            const z = clamp(f(viewportScale() * x, viewportScale() * y), -viewportScale() - 0.1, viewportScale() + 0.1)
-            return z / viewportScale()
-        }
-
         const mapOrdinate = i => mapRange(i, 0, subdivisions - 1, -1, 1)
+        const mapX = x => (x - viewportOriginX) * viewportScale()
+        const mapY = y => (y - viewportOriginY) * viewportScale()
+        const imapZ = z => z / viewportScale() + viewportOriginZ
+
+        const call = (x, y) => {
+            const z = f(mapX(x), mapY(y))
+            const zClamped  = clamp(z, -viewportScale() - 0.1, viewportScale() + 0.1)
+            return imapZ(zClamped)
+        }
 
         for (let xi = 0; xi < subdivisions; xi++) {
             for (let yi = 0; yi < subdivisions; yi++) {
                 const x = mapOrdinate(xi)
                 const y = mapOrdinate(yi)
-                const z = call(x - viewportOriginX, y - viewportOriginY)
+                const z = call(x, y)
                 this.vertices[verticesHead + 0] = x
                 this.vertices[verticesHead + 1] = y
                 this.vertices[verticesHead + 2] = z
@@ -62,10 +66,10 @@ class Mesh {
 
         for (let xi = 0; xi < subdivisions; xi++) {
             for (let yi = 0; yi < subdivisions; yi++) {
-                const x1 = mapOrdinate(xi - 1) - viewportOriginX
-                const x2 = mapOrdinate(xi + 1) - viewportOriginX
-                const y1 = mapOrdinate(yi - 1) - viewportOriginY
-                const y2 = mapOrdinate(yi + 1) - viewportOriginY
+                const x1 = mapOrdinate(xi - 1)
+                const x2 = mapOrdinate(xi + 1)
+                const y1 = mapOrdinate(yi - 1)
+                const y2 = mapOrdinate(yi + 1)
                 const z11 = call(x1, y1)
                 const z12 = call(x1, y2)
                 const z21 = call(x2, y1)

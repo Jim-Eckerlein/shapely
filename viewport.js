@@ -1,5 +1,6 @@
 let viewportOriginX = 0
 let viewportOriginY = 0
+let viewportOriginZ = 0
 let scaleExponent = 0
 const scaleBase = 2
 let subdivisions = 200
