@@ -8,6 +8,21 @@ function sq(x) {
 }
 
 
+function min(x, y) {
+    return Math.min(x, y)
+}
+
+
+function max(x, y) {
+    return Math.max(x, y)
+}
+
+
+function clamp(a, x, y) {
+    return max(x, min(y, a))
+}
+
+
 /// True modulo operator. Result will be in `[0, y)`.
 function mod(x, y) {
     const remainder = x % y
