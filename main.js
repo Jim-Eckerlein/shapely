@@ -20,18 +20,14 @@ renderer.setClearColor(new THREE.Color("#fff"))
 renderer.localClippingEnabled = true
 
 const html = renderer.domElement
-let dragging = false
 let orbiting = true
 let pastX = 0, pastY = 0
 html.onmousedown = e => {
-    dragging = true
     pastX = e.clientX
     pastY = e.clientY
 }
-html.onmouseup = () => dragging = false
-html.onmouseout = () => dragging = false
 html.onmousemove = e => {
-    if (!dragging) return
+    if (e.buttons == 0) return
     const dx = e.clientX - pastX
     const dy = e.clientY - pastY
     if (dx == 0 && dy == 0) return
@@ -47,17 +43,17 @@ html.onmousemove = e => {
         viewportOriginY += dy * 0.005
     }
 }
-html.onmousewheel = e => {
+html.onwheel = e => {
     e.preventDefault()
     scaleBy(e.deltaY * 0.0005)
 }
 document.body.onkeydown = e => {
-    if (e.key == "Meta") {
+    if (e.key == "Shift") {
         orbiting = false
     }
 }
 document.body.onkeyup = e => {
-    if (e.key == "Meta") {
+    if (e.key == "Shift") {
         orbiting = true
     }
 }
